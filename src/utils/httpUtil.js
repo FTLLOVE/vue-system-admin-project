@@ -1,5 +1,7 @@
 import axios from '../service/axios'
 import qs from 'querystring'
+import { resolve } from 'path';
+import { reject } from 'core-js/fn/promise';
 
 /**
  * http请求
@@ -47,5 +49,43 @@ export default class httpUtil {
 				reject(error);
 			}
 		});
+	}
+
+	/**
+	 * PUT请求
+	 * @param {*} url 
+	 * @param {*} params 
+	 */
+	static put(url, params) {
+		return new Promise(async (resolve, reject) => {
+			try {
+				let res = await axios.put(url, params);
+				resolve(res)
+			} catch (error) {
+				reject(error)
+			}
+		})
+	}
+
+	/**
+	 * DELETE请求
+	 * @param {*} url 
+	 * @param {*} params 
+	 */
+	static delete(url, params) {
+		return new Promise(async (resolve, reject) => {
+			try {
+				let query = await qs.stringify(params);
+				let res = null;
+				if (!params) {
+					res = await axios.delete(url);
+				} else {
+					res = await axios.delete(url + '?' + query);
+				}
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		})
 	}
 }

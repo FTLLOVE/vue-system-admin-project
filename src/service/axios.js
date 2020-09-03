@@ -1,6 +1,6 @@
 import axios from 'axios';
 import router from '../router';
-import { Loading } from 'element-ui';
+import { Loading, Message } from 'element-ui';
 // 全局axios请求loading加载
 let options = {
 	lock: true,
@@ -22,10 +22,10 @@ axios.defaults.timeout = 5000
 
 // 请求拦截器
 axios.interceptors.request.use(config => {
-	// const jwtToken = sessionStorage.getItem("token")
-	// if (jwtToken) {
-	// 	config.headers.Authorization = `Bearer ${jwtToken}`
-	// }
+	let jwtToken = localStorage.getItem("token")
+	if (jwtToken) {
+		config.headers.token = jwtToken
+	}
 	if (config.method === 'get') {
 		config.params = {
 			t: Date.parse(new Date()) / 1000,
@@ -43,12 +43,16 @@ axios.interceptors.request.use(config => {
 
 //  响应拦截器
 axios.interceptors.response.use(response => {
-	loadingPage.close()
-
-	if (response.data.code === 200) {
+	// code=401，表示无权限
+	if (response.data.code === 401) {
+		loadingPage.close()
+		Message.error(response.data.message)
+		router.replace('/login')
+		return
+	} else {
+		loadingPage.close()
 		return response.data
 	}
-	return response.data
 },
 	error => {
 		loadingPage.close()

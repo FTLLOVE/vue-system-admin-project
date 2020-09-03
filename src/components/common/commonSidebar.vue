@@ -69,8 +69,8 @@ export default {
         },
         {
           icon: "el-icon-notebook-2",
-          index: "table",
-          title: "基础表格",
+          index: "user",
+          title: "用户管理",
         },
         {
           icon: "el-icon-reading",
@@ -86,21 +86,6 @@ export default {
               title: "表单详情",
             },
           ],
-        },
-        {
-          icon: "el-icon-tickets",
-          index: "markdown",
-          title: "markdown编辑器",
-        },
-        {
-          icon: "el-icon-upload",
-          index: "upload",
-          title: "文件上传",
-        },
-        {
-          icon: "el-icon-pie-chart",
-          index: "charts",
-          title: "vchart图表",
         },
       ],
     };

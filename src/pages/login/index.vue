@@ -6,7 +6,7 @@
           src="../../assets/images/logo.png"
           style="border-radius: 10px; width: 80px; height: 80px"
         />
-        <span class="title">通用中后台管理系统</span>
+        <span class="title">vue-system-admin</span>
       </div>
       <div class="right-wrapper">
         <el-form :model="loginForm" :rules="loginRules" ref="loginRef">
@@ -76,7 +76,7 @@ export default {
               localStorage.setItem("token", res.data);
               this.$router.push("/dashboard");
             } else {
-              this.$message.error(res.data);
+              this.$message.error(res.message && res.data);
               return;
             }
           });
