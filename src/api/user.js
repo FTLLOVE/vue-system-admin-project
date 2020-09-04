@@ -17,7 +17,7 @@ export function fetchAddUser(params) {
 }
 
 /**
- * 更新&删除用户
+ * 更新
  * @param {*} params 更新条件
  */
 export function fetchUpdateUser(params) {
@@ -36,12 +36,12 @@ export function fetchResetPassword(params) {
  * 获取用户详情
  * @param {*} params 
  */
-export function fetchGetUserDetail(params) {
+export function fetchUserDetail(params) {
 	return httpUtil.get("/api/user/getUserDetail", params)
 }
 
 /**
- * 删除请求
+ * 删除用户
  * @param {*} params 
  */
 export function fetchDeleteUser(params) {

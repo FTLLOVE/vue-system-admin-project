@@ -48,7 +48,7 @@ export default {
     return {
       loginForm: {
         username: "15850796186",
-        password: "123456",
+        password: "111111",
       },
       loginRules: {
         username: [
@@ -76,8 +76,9 @@ export default {
               localStorage.setItem("token", res.data);
               this.$router.push("/dashboard");
             } else {
-              this.$message.error(res.message && res.data);
+              this.$message.error(res.message);
               return;
+              // this.$message.error(res.message && res.data);
             }
           });
         }
