@@ -13,7 +13,7 @@ export function fetchRoleList(params) {
  * @param {*} params 
  */
 export function fetchAddRole(params) {
-	return httpUtil.post("/api/role/addRole")
+	return httpUtil.post("/api/role/addRole", params)
 }
 
 /**
