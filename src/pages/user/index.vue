@@ -73,12 +73,20 @@
                 size="mini"
                 plain
                 type="danger"
-                @click="handleUserDelete(scope.$index, scope.row)"
+                v-show="scope.row.status === 1 ? true : false"
+                @click="handleUserStatus(scope.$index, scope.row)"
               >删除</el-button>
               <el-button
                 size="mini"
                 plain
                 type="warning"
+                v-show="scope.row.status === 0 ? true : false"
+                @click="handleUserStatus(scope.$index, scope.row)"
+              >恢复</el-button>
+              <el-button
+                size="mini"
+                plain
+                type="info"
                 @click="handleResetPwd(scope.$index, scope.row)"
               >重置</el-button>
             </template>
@@ -176,10 +184,10 @@
 import {
   fetchUserList,
   fetchAddUser,
-  fetchDeleteUser,
   fetchUpdateUser,
   fetchUserDetail,
   fetchResetPassword,
+  fetchUserStatus,
 } from "../../api/user";
 import { fetchDepartmentList } from "../../api/department";
 import { fetchRoleList } from "../../api/role";
@@ -384,19 +392,28 @@ export default {
       await this.getPostList();
       await this.getUserDetail(row.id);
     },
-    // 删除用户
-    handleUserDelete(index, row) {
-      this.$confirm(`确定要删除用户名是: ${row.username} ?`, "提示")
+    // 更新用户状态
+    handleUserStatus(index, row) {
+      this.$confirm(
+        `确定${row.status === 0 ? "恢复" : "删除"}要用户名是: ${
+          row.username
+        } ?`,
+        "提示"
+      )
         .then(async () => {
-          await fetchDeleteUser({
+          await fetchUserStatus({
             id: row.id,
-            status: 0,
+            status: row.status === 0 ? 1 : 0,
           }).then((res) => {
             if (res.code === 200) {
               this.getUserList();
-              this.$message.success(`删除成功`);
+              this.$message.success(
+                `${row.status === 0 ? "恢复成功" : "删除成功"}`
+              );
             } else {
-              this.$message.error("删除失败");
+              this.$message.error(
+                `${row.status === 0 ? "恢复失败" : "恢复成功"}`
+              );
             }
           });
         })

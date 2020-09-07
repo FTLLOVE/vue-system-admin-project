@@ -69,8 +69,17 @@ export default {
         },
         {
           icon: "el-icon-notebook-2",
-          index: "user",
-          title: "用户管理",
+          title: "系统管理",
+          subs: [
+            {
+              index: "user",
+              title: "用户管理",
+            },
+            {
+              index: "role",
+              title: "角色管理",
+            },
+          ],
         },
         {
           icon: "el-icon-reading",

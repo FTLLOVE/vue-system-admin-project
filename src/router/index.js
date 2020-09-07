@@ -23,6 +23,11 @@ export default new Router({
 					component: () => import('../pages/user'),
 					meta: { title: '用户管理' }
 				},
+				{
+					path: 'role',
+					component: () => import('../pages/role'),
+					meta: { title: '角色管理' }
+				},
 			]
 		},
 		{

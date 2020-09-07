@@ -41,9 +41,9 @@ export function fetchUserDetail(params) {
 }
 
 /**
- * 删除用户
+ * 更新用户状态
  * @param {*} params 
  */
-export function fetchDeleteUser(params) {
-	return httpUtil.delete("/api/user/deleteUser", params)
+export function fetchUserStatus(params) {
+	return httpUtil.delete("/api/user/updateUserStatus", params)
 }
