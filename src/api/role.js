@@ -5,7 +5,7 @@ import httpUtil from '../utils/httpUtil'
  * @param {*} params 
  */
 export function fetchRoleList(params) {
-	return httpUtil.get("/api/role/getRoleList")
+	return httpUtil.get("/api/role/getRoleList", params)
 }
 
 /**

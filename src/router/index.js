@@ -28,6 +28,11 @@ export default new Router({
 					component: () => import('../pages/role'),
 					meta: { title: '角色管理' }
 				},
+				{
+					path: "loginLog",
+					component: () => import("../pages/log"),
+					meta: { title: '登录日志' }
+				}
 			]
 		},
 		{

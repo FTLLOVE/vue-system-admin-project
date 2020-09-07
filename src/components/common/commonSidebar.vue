@@ -70,6 +70,7 @@ export default {
         {
           icon: "el-icon-notebook-2",
           title: "系统管理",
+          index: "system",
           subs: [
             {
               index: "user",
@@ -79,20 +80,9 @@ export default {
               index: "role",
               title: "角色管理",
             },
-          ],
-        },
-        {
-          icon: "el-icon-reading",
-          index: "3",
-          title: "表单相关",
-          subs: [
             {
-              index: "form",
-              title: "基本表单",
-            },
-            {
-              index: "form-detail",
-              title: "表单详情",
+              index: "loginLog",
+              title: "登录日志",
             },
           ],
         },

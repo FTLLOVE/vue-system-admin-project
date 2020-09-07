@@ -395,9 +395,7 @@ export default {
     // 更新用户状态
     handleUserStatus(index, row) {
       this.$confirm(
-        `确定${row.status === 0 ? "恢复" : "删除"}要用户名是: ${
-          row.username
-        } ?`,
+        `确定${row.status === 0 ? "恢复" : "删除"}用户名是: ${row.username} ?`,
         "提示"
       )
         .then(async () => {
