@@ -81,6 +81,10 @@ export default {
               title: "角色管理",
             },
             {
+              index: "department",
+              title: "部门管理"
+            },
+            {
               index: "loginLog",
               title: "登录日志",
             },

@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <el-form :inline="true" :model="searchForm">
+    <el-form :model="searchForm" :inline="true">
       <el-form-item label="角色名称">
-        <el-input v-model="searchForm.name" clearable></el-input>
+        <el-input v-model="searchForm.department_name" clearable></el-input>
       </el-form-item>
       <el-form-item label="状态">
         <el-select v-model="searchForm.status" placeholder clearable>
@@ -20,13 +20,14 @@
         <el-button type="success" icon="el-icon-plus" @click="handleShowDialog" size="mini">新增</el-button>
       </el-form-item>
     </el-form>
-    <el-table ref="multipleTable" :data="roleList" tooltip-effect="dark">
+    <el-table :data="departmentList">
       <el-table-column prop="id" label="ID"></el-table-column>
-      <el-table-column prop="name" label="角色名称"></el-table-column>
+      <el-table-column prop="department_name" label="部门名称"></el-table-column>
+      <el-table-column prop="sort" label="排序"></el-table-column>
       <el-table-column label="状态">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.status === 0" type="danger">失效</el-tag>
-          <el-tag v-else type="success">正常</el-tag>
+          <el-tag v-if="scope.row.status === 1" type="success">正常</el-tag>
+          <el-tag v-else type="danger">失效</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="create_time" label="创建时间"></el-table-column>
@@ -37,21 +38,21 @@
             size="mini"
             plain
             type="primary"
-            @click="handleRoleEdit(scope.$index, scope.row)"
+            @click="handleEdit(scope.$index, scope.row)"
           >编辑</el-button>
           <el-button
             size="mini"
             plain
             type="danger"
             v-show="scope.row.status === 1 ? true : false"
-            @click="handleRoleStatus(scope.$index, scope.row)"
+            @click="handleStatus(scope.$index, scope.row)"
           >删除</el-button>
           <el-button
             size="mini"
             plain
             type="warning"
             v-show="scope.row.status === 0 ? true : false"
-            @click="handleRoleStatus(scope.$index, scope.row)"
+            @click="handleStatus(scope.$index, scope.row)"
           >恢复</el-button>
         </template>
       </el-table-column>
@@ -69,28 +70,11 @@
     <!-- 新增&编辑模态框 -->
     <el-dialog :title="title" :visible.sync="isVisible" @close="handleCancel">
       <el-form :model="form" label-width="100px" :rules="rules" ref="refForm">
-        <el-form-item label="角色名称" prop="name">
-          <el-input v-model="form.name" class="input-wrapper" />
+        <el-form-item label="部门名称" prop="department_name">
+          <el-input v-model="form.department_name" class="input-wrapper" />
         </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <div class="input-wrapper">
-            <el-radio v-model="form.status" label="1">正常</el-radio>
-            <el-radio v-model="form.status" label="0">失效</el-radio>
-          </div>
-        </el-form-item>
-        <el-form-item label="菜单权限" prop="menuIds">
-          <el-tree
-            :data="menuList"
-            show-checkbox
-            node-key="id"
-            :props="defaultProps"
-            :default-checked-keys="form.menuIds"
-            ref="tree"
-            highlight-current
-          ></el-tree>
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注信息" type="textarea" style="width: 70%" />
+        <el-form-item label="部门排序" prop="sort">
+          <el-input-number v-model="form.sort" :min="0" :max="10"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -103,60 +87,51 @@
 
 <script>
 import {
-  fetchRoleList,
-  fetchAddRole,
-  fetchUpdateRole,
-  fetchRoleDetail,
-  fetchUpdateRoleStatus,
-} from "../../api/role";
-import { fetchMenuList } from "../../api/menu";
-
+  fetchDepartmentList,
+  fetchDepartmentDetail,
+  fetchAddDepartment,
+  fetchUpdateDepartmentStatus,
+  fetchUpdateDepartment,
+} from "../../api/department";
+import { fetchUpdateRoleStatus } from "../../api/role";
 export default {
-  name: "role",
+  name: "department",
   data() {
     return {
       searchForm: {
-        name: "",
+        department_name: "",
         status: "",
         page: 0,
         size: 10,
       },
-      roleList: [],
+      departmentList: [],
       total: 0,
-      scene: "",
-      isVisible: false,
       form: {
-        name: "",
-        status: "1",
-        remark: "",
-        menuIds: [],
+        department_name: "",
+        sort: 0,
       },
+      isVisible: false,
       rules: {
-        name: [
-          { required: true, message: "角色名称不能为空", trigger: "blur" },
+        department_name: [
+          { required: true, message: "部门名称不能为空", trigger: "blur" },
         ],
       },
       title: "",
-      menuList: [],
-      defaultProps: {
-        children: "children",
-        label: "name",
-      },
-      defaultCheckedKey: [],
+      scene: "",
     };
   },
   created() {
-    this.getRoleList();
+    this.getDepartmentList();
   },
   methods: {
-    // 获取角色列表
-    async getRoleList() {
-      await fetchRoleList(this.searchForm).then((res) => {
+    // 获取部门列表
+    async getDepartmentList() {
+      await fetchDepartmentList(this.searchForm).then((res) => {
         if (res.code === 200 && res.data.data && res.data.data.length !== 0) {
-          this.roleList = res.data.data;
+          this.departmentList = res.data.data;
           this.total = res.data.total;
         } else {
-          this.roleList = [];
+          this.deaprtmentList = [];
           this.total = 0;
         }
       });
@@ -164,69 +139,56 @@ export default {
     // 搜索
     handleSearch() {
       this.searchForm.page = 0;
-      this.getRoleList();
+      this.getDepartmentList();
     },
     // 重置
     handleReset() {
       this.searchForm = {
-        name: "",
+        department_name: "",
         status: "",
         page: 0,
         size: 10,
       };
-      this.getRoleList();
-    },
-    // 页码变化
-    handleCurrentChange(val) {
-      this.searchForm.page = val;
-      this.getRoleList();
+      this.getDepartmentList();
     },
     // 新增弹框
     handleShowDialog() {
       this.scene = "add";
-      this.title = "新增角色";
-      this.getMenuList();
+      this.title = "新增部门";
       this.isVisible = true;
     },
-    // 获取菜单列表
-    getMenuList() {
-      fetchMenuList().then((res) => {
-        if (res.code === 200 && res.data && res.data.length !== 0) {
-          this.menuList = res.data;
-        }
-      });
-    },
-    // 编辑角色
-    async handleRoleEdit(index, row) {
-      this.title = "编辑角色";
+    // 编辑
+    handleEdit(index, row) {
       this.scene = "edit";
+      this.title = "编辑部门";
       this.isVisible = true;
-      this.getRoleDetail(row.id);
-      this.getMenuList();
+      this.getDepartmentDetail(row.id);
       this.form.id = row.id;
     },
-    // 获取角色详情
-    async getRoleDetail(id) {
-      await fetchRoleDetail({ id }).then((res) => {
+    // 获取部门详情
+    async getDepartmentDetail(id) {
+      await fetchDepartmentDetail({ id }).then((res) => {
         if (res.code === 200) {
           this.form = res.data;
-          this.form.status = res.data.status.toString();
         }
       });
     },
-    // 更新角色状态
-    handleRoleStatus(index, row) {
+    // 更新状态
+    handleStatus(index, row) {
+      console.log(row);
       this.$confirm(
-        `确定${row.status === 0 ? "恢复" : "删除"}角色名是: ${row.name} ?`,
+        `确定${row.status === 0 ? "恢复" : "删除"}部门名称是: ${
+          row.department_name
+        } ?`,
         "提示"
       )
         .then(async () => {
-          await fetchUpdateRoleStatus({
+          await fetchUpdateDepartmentStatus({
             id: row.id,
             status: row.status === 0 ? 1 : 0,
           }).then((res) => {
             if (res.code === 200) {
-              this.getRoleList();
+              this.getDepartmentList();
               this.$message.success(
                 `${row.status === 0 ? "恢复成功" : "删除成功"}`
               );
@@ -237,7 +199,14 @@ export default {
             }
           });
         })
-        .catch(() => {});
+        .catch(() => {
+          this.$message.error(res.message);
+        });
+    },
+    // 页码变化
+    handleCurrentChange(val) {
+      this.searchForm.page = val;
+      this.getDepartmentList();
     },
     // 取消
     handleCancel() {
@@ -249,25 +218,23 @@ export default {
       this.$refs["refForm"].validate((valid) => {
         if (valid) {
           this.params = {
-            name: this.form.name,
-            status: this.form.status,
-            menuIds: this.$refs.tree.getCheckedKeys(),
-            remark: this.form.remark,
+            department_name: this.form.department_name,
+            sort: this.form.sort,
           };
-          // 新增角色
+          // 新增部门
           if (this.scene === "add") {
-            fetchAddRole(this.params).then((res) => {
+            fetchAddDepartment(this.params).then((res) => {
               if (res.code === 200) {
                 this.$message.success("新增成功");
                 this.isVisible = false;
                 this.$refs["refForm"].resetFields();
-                this.getRoleList();
+                this.getDepartmentList();
               } else {
                 this.$message.error(res.message);
               }
             });
           } else {
-            // 更新角色
+            // 更新部门
             this.params.id = this.form.id;
             fetchUpdateRole(this.params).then((res) => {
               if (res.code === 200) {

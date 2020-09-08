@@ -29,10 +29,16 @@ export default new Router({
 					meta: { title: '角色管理' }
 				},
 				{
+					path: "department",
+					component: () => import('../pages/department'),
+					meta: { title: "部门管理"}
+				},
+				{
 					path: "loginLog",
 					component: () => import("../pages/log"),
 					meta: { title: '登录日志' }
-				}
+				},
+
 			]
 		},
 		{
