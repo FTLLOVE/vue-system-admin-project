@@ -1,14 +1,14 @@
 <template>
   <div class="sidebar">
     <el-menu
-      :default-active="onRoute"
-      class="sidebar-el-menu"
-      :collapse="collapse"
-      background-color="#fff"
-      text-color="#333"
-      active-text-color="#6190e8"
-      router
-      unique-opened
+        :default-active="onRoute"
+        class="sidebar-el-menu"
+        :collapse="collapse"
+        background-color="#fff"
+        text-color="#333"
+        active-text-color="#6190e8"
+        router
+        unique-opened
     >
       <template v-for="item in items">
         <template v-if="item.subs">
@@ -20,25 +20,27 @@
             </template>
             <template v-for="subItem in item.subs">
               <el-submenu
-                v-if="subItem.subs"
-                :index="subItem.index"
-                :key="subItem.index"
-                class="title"
+                  v-if="subItem.subs"
+                  :index="subItem.index"
+                  :key="subItem.index"
+                  class="title"
               >
                 <template slot="title" class="title">{{ subItem.title }}</template>
                 <el-menu-item
-                  v-for="(threeItem,i) in subItem.subs"
-                  :key="i"
-                  :index="threeItem.index"
-                  class="title"
-                >{{ threeItem.title }}</el-menu-item>
+                    v-for="(threeItem,i) in subItem.subs"
+                    :key="i"
+                    :index="threeItem.index"
+                    class="title"
+                >{{ threeItem.title }}
+                </el-menu-item>
               </el-submenu>
               <el-menu-item
-                v-else
-                :index="subItem.index"
-                :key="subItem.index"
-                class="title"
-              >{{ subItem.title }}</el-menu-item>
+                  v-else
+                  :index="subItem.index"
+                  :key="subItem.index"
+                  class="title"
+              >{{ subItem.title }}
+              </el-menu-item>
             </template>
           </el-submenu>
         </template>
@@ -56,6 +58,7 @@
 
 <script>
 import bus from "../../service/bus";
+
 export default {
   name: "commonSidebar",
   data() {
@@ -83,6 +86,10 @@ export default {
             {
               index: "department",
               title: "部门管理"
+            },
+            {
+              index: "post",
+              title: "岗位管理"
             },
             {
               index: "loginLog",
@@ -118,12 +125,15 @@ export default {
   bottom: 0;
   overflow-y: scroll;
 }
+
 .sidebar::-webkit-scrollbar {
   width: 0;
 }
+
 .sidebar-el-menu:not(.el-menu--collapse) {
   width: 250px;
 }
+
 .sidebar > ul {
   height: 100%;
 }
@@ -138,6 +148,7 @@ export default {
 .el-menu-item {
   border-left: #fff solid 6px;
 }
+
 /* 设置鼠标悬停时el-menu-item的样式 */
 .el-menu-item:hover {
   border-left: #6190e8 solid 6px !important;

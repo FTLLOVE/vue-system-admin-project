@@ -92,8 +92,7 @@ import {
   fetchAddDepartment,
   fetchUpdateDepartmentStatus,
   fetchUpdateDepartment,
-} from "../../api/department";
-import { fetchUpdateRoleStatus } from "../../api/role";
+} from "@/api/department";
 export default {
   name: "department",
   data() {
@@ -131,7 +130,6 @@ export default {
           this.departmentList = res.data.data;
           this.total = res.data.total;
         } else {
-          this.deaprtmentList = [];
           this.total = 0;
         }
       });
@@ -175,7 +173,6 @@ export default {
     },
     // 更新状态
     handleStatus(index, row) {
-      console.log(row);
       this.$confirm(
         `确定${row.status === 0 ? "恢复" : "删除"}部门名称是: ${
           row.department_name
@@ -236,7 +233,7 @@ export default {
           } else {
             // 更新部门
             this.params.id = this.form.id;
-            fetchUpdateRole(this.params).then((res) => {
+            fetchUpdateDepartment(this.params).then((res) => {
               if (res.code === 200) {
                 this.$message.success("更新成功");
                 this.isVisible = false;

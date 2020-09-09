@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 Vue.use(Router)
 
 export default new Router({
@@ -11,32 +12,37 @@ export default new Router({
 		{
 			path: '/',
 			component: () => import('../components/Home.vue'),
-			meta: { title: 'home' },
+			meta: {title: 'home'},
 			children: [
 				{
 					path: 'dashboard',
 					component: () => import('../pages/dashboard'),
-					meta: { title: '系统首页' }
+					meta: {title: '系统首页'}
 				},
 				{
 					path: 'user',
 					component: () => import('../pages/user'),
-					meta: { title: '用户管理' }
+					meta: {title: '用户管理'}
 				},
 				{
 					path: 'role',
 					component: () => import('../pages/role'),
-					meta: { title: '角色管理' }
+					meta: {title: '角色管理'}
 				},
 				{
 					path: "department",
 					component: () => import('../pages/department'),
-					meta: { title: "部门管理"}
+					meta: {title: "部门管理"}
+				},
+				{
+					path: "post",
+					component: () => import('../pages/post'),
+					meta: {title: "岗位管理"}
 				},
 				{
 					path: "loginLog",
 					component: () => import("../pages/log"),
-					meta: { title: '登录日志' }
+					meta: {title: '登录日志'}
 				},
 
 			]
@@ -44,7 +50,7 @@ export default new Router({
 		{
 			path: '/login',
 			component: () => import('../pages/login'),
-			meta: { title: '登录' }
+			meta: {title: '登录'}
 		}
 	]
 })

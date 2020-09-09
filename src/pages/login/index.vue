@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { fetchLogin } from "../../api/login";
+import { fetchLogin } from "@/api/login";
 export default {
   name: "login",
   data() {

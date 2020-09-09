@@ -108,8 +108,8 @@ import {
   fetchUpdateRole,
   fetchRoleDetail,
   fetchUpdateRoleStatus,
-} from "../../api/role";
-import { fetchMenuList } from "../../api/menu";
+} from "@/api/role";
+import { fetchMenuList } from "@/api/menu";
 
 export default {
   name: "role",

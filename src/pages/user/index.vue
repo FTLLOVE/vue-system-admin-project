@@ -3,12 +3,12 @@
     <el-row>
       <el-col :span="4">
         <el-tree
-          class="filter-tree"
-          :data="treeData"
-          default-expand-all
-          ref="tree"
-          :props="defaultProps"
-          @node-click="handleDepartmentClick"
+            class="filter-tree"
+            :data="treeData"
+            default-expand-all
+            ref="tree"
+            :props="defaultProps"
+            @node-click="handleDepartmentClick"
         ></el-tree>
       </el-col>
       <el-col :span="20">
@@ -21,7 +21,7 @@
           </el-form-item>
 
           <el-form-item label="状态">
-            <el-select v-model="searchForm.status" placeholder clearable>
+            <el-select v-model="searchForm.status" clearable>
               <el-option label="正常" value="1"></el-option>
               <el-option label="无效" value="0"></el-option>
             </el-select>
@@ -37,10 +37,9 @@
           </el-form-item>
         </el-form>
         <el-table
-          ref="multipleTable"
-          :data="userList"
-          tooltip-effect="dark"
-          @selection-change="handleSelectionChange"
+            ref="multipleTable"
+            :data="userList"
+            tooltip-effect="dark"
         >
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="id" label="ID"></el-table-column>
@@ -64,41 +63,45 @@
           <el-table-column label="操作" width="220">
             <template slot-scope="scope">
               <el-button
-                size="mini"
-                plain
-                type="primary"
-                @click="handleUserEdit(scope.$index, scope.row)"
-              >编辑</el-button>
+                  size="mini"
+                  plain
+                  type="primary"
+                  @click="handleUserEdit(scope.$index, scope.row)"
+              >编辑
+              </el-button>
               <el-button
-                size="mini"
-                plain
-                type="danger"
-                v-show="scope.row.status === 1 ? true : false"
-                @click="handleUserStatus(scope.$index, scope.row)"
-              >删除</el-button>
+                  size="mini"
+                  plain
+                  type="danger"
+                  v-show="scope.row.status === 1"
+                  @click="handleUserStatus(scope.$index, scope.row)"
+              >删除
+              </el-button>
               <el-button
-                size="mini"
-                plain
-                type="warning"
-                v-show="scope.row.status === 0 ? true : false"
-                @click="handleUserStatus(scope.$index, scope.row)"
-              >恢复</el-button>
+                  size="mini"
+                  plain
+                  type="warning"
+                  v-show="scope.row.status === 0"
+                  @click="handleUserStatus(scope.$index, scope.row)"
+              >恢复
+              </el-button>
               <el-button
-                size="mini"
-                plain
-                type="info"
-                @click="handleResetPwd(scope.$index, scope.row)"
-              >重置</el-button>
+                  size="mini"
+                  plain
+                  type="info"
+                  @click="handleResetPwd(scope.$index, scope.row)"
+              >重置
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
         <div class="pagination">
           <el-pagination
-            @current-change="handleCurrentChange"
-            :current-page="searchForm.page"
-            :page-size="searchForm.size"
-            layout="total, prev, pager, next, jumper"
-            :total="total"
+              @current-change="handleCurrentChange"
+              :current-page="searchForm.page"
+              :page-size="searchForm.size"
+              layout="total, prev, pager, next, jumper"
+              :total="total"
           ></el-pagination>
         </div>
       </el-col>
@@ -108,18 +111,18 @@
     <el-dialog :title="title" :visible.sync="isVisible" @close="handleCancel">
       <el-form :model="form" label-width="100px" :rules="rules" ref="refForm" :inline="true">
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="form.username" class="input-wrapper" />
+          <el-input v-model="form.username" class="input-wrapper"/>
         </el-form-item>
         <el-form-item label="手机号" prop="telephone">
-          <el-input v-model="form.telephone" class="input-wrapper" />
+          <el-input v-model="form.telephone" class="input-wrapper"/>
         </el-form-item>
         <el-form-item
-          label="密码"
-          v-show="this.scene ==='add' ? true : false"
-          prop="password"
-          :rules="this.scene === 'add' ? [{required: true, message: '密码不能为空', trigger: 'blur'}] :rules.password"
+            label="密码"
+            v-show="this.scene ==='add'"
+            prop="password"
+            :rules="this.scene === 'add' ? [{required: true, message: '密码不能为空', trigger: 'blur'}] :rules.password"
         >
-          <el-input v-model="form.password" class="input-wrapper" type="password" />
+          <el-input v-model="form.password" class="input-wrapper" type="password"/>
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-select v-model="form.sex" class="input-wrapper">
@@ -131,10 +134,10 @@
         <el-form-item label="部门" prop="department_id">
           <el-select v-model="form.department_id" class="input-wrapper">
             <el-option
-              v-for="el in departmentList"
-              :label="el.department_name"
-              :value="el.id"
-              :key="el.id"
+                v-for="el in departmentList"
+                :label="el.department_name"
+                :value="el.id"
+                :key="el.id"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -144,7 +147,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model="form.email" class="input-wrapper" />
+          <el-input v-model="form.email" class="input-wrapper"/>
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <div class="input-wrapper">
@@ -153,7 +156,7 @@
           </div>
         </el-form-item>
         <el-form-item label="昵称" prop="nickname">
-          <el-input v-model="form.nickname" class="input-wrapper" />
+          <el-input v-model="form.nickname" class="input-wrapper"/>
         </el-form-item>
         <el-form-item label="角色" prop="roles">
           <el-select v-model="form.roles" class="input-wrapper" multiple>
@@ -162,13 +165,13 @@
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input
-            type="textarea"
-            :autosize="{ minRows: 2, maxRows: 3}"
-            placeholder="请输入内容"
-            v-model="form.remark"
-            maxlength="100"
-            show-word-limit
-            style="width: 100%"
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 3}"
+              placeholder="请输入内容"
+              v-model="form.remark"
+              maxlength="100"
+              show-word-limit
+              style="width: 100%"
           ></el-input>
         </el-form-item>
       </el-form>
@@ -188,10 +191,11 @@ import {
   fetchUserDetail,
   fetchResetPassword,
   fetchUserStatus,
-} from "../../api/user";
-import { fetchDepartmentList } from "../../api/department";
-import { fetchRoleList } from "../../api/role";
-import { fetchPostList } from "../../api/post";
+} from "@/api/user";
+import {fetchDepartmentList} from "@/api/department";
+import {fetchRoleList} from "@/api/role";
+import {fetchPostList} from "@/api/post";
+
 export default {
   name: "user",
   inject: ["reload"],
@@ -239,25 +243,25 @@ export default {
       title: "",
       rules: {
         username: [
-          { required: true, message: "用户名不能为空", trigger: "blur" },
+          {required: true, message: "用户名不能为空", trigger: "blur"},
         ],
         telephone: [
-          { required: true, message: "手机号不能为空", trigger: "blur" },
-          { min: 11, max: 11, message: "手机号不合法", trigger: "blur" },
+          {required: true, message: "手机号不能为空", trigger: "blur"},
+          {min: 11, max: 11, message: "手机号不合法", trigger: "blur"},
         ],
         department_id: [
-          { required: true, message: "部门不能为空", trigger: "change" },
+          {required: true, message: "部门不能为空", trigger: "change"},
         ],
         post_id: [
-          { required: true, message: "岗位不能为空", trigger: "change" },
+          {required: true, message: "岗位不能为空", trigger: "change"},
         ],
-        email: [{ required: true, message: "邮箱不能为空", trigger: "blur" }],
-        sex: [{ required: true, message: "性别不能为空", trigger: "change" }],
+        email: [{required: true, message: "邮箱不能为空", trigger: "blur"}],
+        sex: [{required: true, message: "性别不能为空", trigger: "change"}],
         status: [
-          { required: true, message: "状态不能为空", trigger: "change" },
+          {required: true, message: "状态不能为空", trigger: "change"},
         ],
         password: [
-          { required: false, message: "状态不能为空", trigger: "blur" },
+          {required: false, message: "状态不能为空", trigger: "blur"},
         ],
       },
       scene: "",
@@ -282,7 +286,7 @@ export default {
     },
     // 获取用户详情
     async getUserDetail(id) {
-      await fetchUserDetail({ id }).then((res) => {
+      await fetchUserDetail({id}).then((res) => {
         if (res.code === 200) {
           this.form = res.data;
           this.form.status = res.data.status.toString();
@@ -291,9 +295,9 @@ export default {
           let newRoles = [];
 
           this.form.roles &&
-            this.form.roles.forEach((el) => {
-              newRoles.push(el.id);
-            });
+          this.form.roles.forEach((el) => {
+            newRoles.push(el.id);
+          });
 
           this.form.roles = newRoles;
           console.log(this.form);
@@ -321,20 +325,6 @@ export default {
     handleCurrentChange(val) {
       this.searchForm.page = val;
       this.getUserList();
-    },
-    // 复选框
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach((row) => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-      }
-    },
-    // 选择项变化
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
     },
     // 获取部门列表
     async getDepartmentList() {
@@ -395,27 +385,28 @@ export default {
     // 更新用户状态
     handleUserStatus(index, row) {
       this.$confirm(
-        `确定${row.status === 0 ? "恢复" : "删除"}用户名是: ${row.username} ?`,
-        "提示"
+          `确定${row.status === 0 ? "恢复" : "删除"}用户名是: ${row.username} ?`,
+          "提示"
       )
-        .then(async () => {
-          await fetchUserStatus({
-            id: row.id,
-            status: row.status === 0 ? 1 : 0,
-          }).then((res) => {
-            if (res.code === 200) {
-              this.getUserList();
-              this.$message.success(
-                `${row.status === 0 ? "恢复成功" : "删除成功"}`
-              );
-            } else {
-              this.$message.error(
-                `${row.status === 0 ? "恢复失败" : "恢复成功"}`
-              );
-            }
+          .then(async () => {
+            await fetchUserStatus({
+              id: row.id,
+              status: row.status === 0 ? 1 : 0,
+            }).then((res) => {
+              if (res.code === 200) {
+                this.getUserList();
+                this.$message.success(
+                    `${row.status === 0 ? "恢复成功" : "删除成功"}`
+                );
+              } else {
+                this.$message.error(
+                    `${row.status === 0 ? "恢复失败" : "恢复成功"}`
+                );
+              }
+            });
+          })
+          .catch(() => {
           });
-        })
-        .catch(() => {});
     },
     // 提交按钮
     handleSubmit() {
@@ -470,22 +461,23 @@ export default {
           }
         },
       })
-        .then(async ({ value }) => {
-          if (!value) {
-            this.$message.error("新密码不能为空");
-            return false;
-          } else {
-            await fetchResetPassword({
-              id: row.id,
-              password: value,
-            }).then((res) => {
-              if (res.code === 200) {
-                this.$message.success("重置成功");
-              }
-            });
-          }
-        })
-        .catch(() => {});
+          .then(async ({value}) => {
+            if (!value) {
+              this.$message.error("新密码不能为空");
+              return false;
+            } else {
+              await fetchResetPassword({
+                id: row.id,
+                password: value,
+              }).then((res) => {
+                if (res.code === 200) {
+                  this.$message.success("重置成功");
+                }
+              });
+            }
+          })
+          .catch(() => {
+          });
     },
   },
 };

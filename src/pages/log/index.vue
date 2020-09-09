@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { fetchLogList } from "../../api/log";
+import { fetchLogList } from "@/api/log";
 export default {
   name: "login-log",
   data() {
@@ -56,7 +56,6 @@ export default {
           this.logList = res.data.data;
           this.total = res.data.total;
         } else {
-          this.logList = [];
           this.total = 0;
         }
       });
