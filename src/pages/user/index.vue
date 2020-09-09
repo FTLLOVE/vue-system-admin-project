@@ -422,7 +422,6 @@ export default {
                 this.getUserList();
               } else {
                 this.$message.error(res.message);
-                return;
               }
             });
           } else {
@@ -435,7 +434,6 @@ export default {
                 this.getUserList();
               } else {
                 this.$message.error(res.message);
-                return;
               }
             });
           }

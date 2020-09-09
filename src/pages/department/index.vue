@@ -5,7 +5,7 @@
         <el-input v-model="searchForm.department_name" clearable></el-input>
       </el-form-item>
       <el-form-item label="状态">
-        <el-select v-model="searchForm.status" placeholder clearable>
+        <el-select v-model="searchForm.status" clearable>
           <el-option label="正常" value="1"></el-option>
           <el-option label="失效" value="0"></el-option>
         </el-select>
@@ -35,35 +35,38 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
-            size="mini"
-            plain
-            type="primary"
-            @click="handleEdit(scope.$index, scope.row)"
-          >编辑</el-button>
+              size="mini"
+              plain
+              type="primary"
+              @click="handleEdit(scope.$index, scope.row)"
+          >编辑
+          </el-button>
           <el-button
-            size="mini"
-            plain
-            type="danger"
-            v-show="scope.row.status === 1 ? true : false"
-            @click="handleStatus(scope.$index, scope.row)"
-          >删除</el-button>
+              size="mini"
+              plain
+              type="danger"
+              v-show="scope.row.status === 1"
+              @click="handleStatus(scope.$index, scope.row)"
+          >删除
+          </el-button>
           <el-button
-            size="mini"
-            plain
-            type="warning"
-            v-show="scope.row.status === 0 ? true : false"
-            @click="handleStatus(scope.$index, scope.row)"
-          >恢复</el-button>
+              size="mini"
+              plain
+              type="warning"
+              v-show="scope.row.status === 0"
+              @click="handleStatus(scope.$index, scope.row)"
+          >恢复
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="pagination">
       <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page="searchForm.page"
-        :page-size="searchForm.size"
-        layout="total, prev, pager, next, jumper"
-        :total="total"
+          @current-change="handleCurrentChange"
+          :current-page="searchForm.page"
+          :page-size="searchForm.size"
+          layout="total, prev, pager, next, jumper"
+          :total="total"
       ></el-pagination>
     </div>
 
@@ -71,7 +74,7 @@
     <el-dialog :title="title" :visible.sync="isVisible" @close="handleCancel">
       <el-form :model="form" label-width="100px" :rules="rules" ref="refForm">
         <el-form-item label="部门名称" prop="department_name">
-          <el-input v-model="form.department_name" class="input-wrapper" />
+          <el-input v-model="form.department_name" class="input-wrapper"/>
         </el-form-item>
         <el-form-item label="部门排序" prop="sort">
           <el-input-number v-model="form.sort" :min="0" :max="10"></el-input-number>
@@ -93,6 +96,7 @@ import {
   fetchUpdateDepartmentStatus,
   fetchUpdateDepartment,
 } from "@/api/department";
+
 export default {
   name: "department",
   data() {
@@ -112,7 +116,7 @@ export default {
       isVisible: false,
       rules: {
         department_name: [
-          { required: true, message: "部门名称不能为空", trigger: "blur" },
+          {required: true, message: "部门名称不能为空", trigger: "blur"},
         ],
       },
       title: "",
@@ -165,7 +169,7 @@ export default {
     },
     // 获取部门详情
     async getDepartmentDetail(id) {
-      await fetchDepartmentDetail({ id }).then((res) => {
+      await fetchDepartmentDetail({id}).then((res) => {
         if (res.code === 200) {
           this.form = res.data;
         }
@@ -174,31 +178,31 @@ export default {
     // 更新状态
     handleStatus(index, row) {
       this.$confirm(
-        `确定${row.status === 0 ? "恢复" : "删除"}部门名称是: ${
-          row.department_name
-        } ?`,
-        "提示"
+          `确定${row.status === 0 ? "恢复" : "删除"}部门名称是: ${
+              row.department_name
+          } ?`,
+          "提示"
       )
-        .then(async () => {
-          await fetchUpdateDepartmentStatus({
-            id: row.id,
-            status: row.status === 0 ? 1 : 0,
-          }).then((res) => {
-            if (res.code === 200) {
-              this.getDepartmentList();
-              this.$message.success(
-                `${row.status === 0 ? "恢复成功" : "删除成功"}`
-              );
-            } else {
-              this.$message.error(
-                `${row.status === 0 ? "恢复失败" : "恢复成功"}`
-              );
-            }
+          .then(async () => {
+            await fetchUpdateDepartmentStatus({
+              id: row.id,
+              status: row.status === 0 ? 1 : 0,
+            }).then((res) => {
+              if (res.code === 200) {
+                this.getDepartmentList();
+                this.$message.success(
+                    `${row.status === 0 ? "恢复成功" : "删除成功"}`
+                );
+              } else {
+                this.$message.error(
+                    `${row.status === 0 ? "恢复失败" : "恢复成功"}`
+                );
+              }
+            });
+          })
+          .catch(() => {
+            this.$message.error(res.message);
           });
-        })
-        .catch(() => {
-          this.$message.error(res.message);
-        });
     },
     // 页码变化
     handleCurrentChange(val) {

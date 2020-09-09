@@ -3,8 +3,8 @@
     <div class="bg-wrapper">
       <div class="left-wrapper">
         <img
-          src="../../assets/images/logo.png"
-          style="border-radius: 10px; width: 80px; height: 80px"
+            src="../../assets/images/logo.png"
+            style="border-radius: 10px; width: 80px; height: 80px"
         />
         <span class="title">vue-system-admin</span>
       </div>
@@ -13,22 +13,22 @@
           <div class="login-title">欢迎登录</div>
           <el-form-item style="margin-top: 20px" prop="username">
             <el-input
-              v-model="loginForm.username"
-              size="large"
-              style="width: 300px"
-              placeholder="用户名"
-              prefix-icon="el-icon-user"
+                v-model="loginForm.username"
+                size="large"
+                style="width: 300px"
+                placeholder="用户名"
+                prefix-icon="el-icon-user"
             ></el-input>
           </el-form-item>
           <el-form-item style="margin-top: 20px" prop="password">
             <el-input
-              show-password
-              v-model="loginForm.password"
-              size="large"
-              style="width: 300px"
-              type="password"
-              placeholder="密码"
-              prefix-icon="el-icon-lock"
+                show-password
+                v-model="loginForm.password"
+                size="large"
+                style="width: 300px"
+                type="password"
+                placeholder="密码"
+                prefix-icon="el-icon-lock"
             ></el-input>
           </el-form-item>
           <el-form-item style="margin-top: 30px">
@@ -41,7 +41,8 @@
 </template>
 
 <script>
-import { fetchLogin } from "@/api/login";
+import {fetchLogin} from "@/api/login";
+
 export default {
   name: "login",
   data() {
@@ -52,10 +53,10 @@ export default {
       },
       loginRules: {
         username: [
-          { required: true, message: "用户名不能为空", trigger: "blur" },
+          {required: true, message: "用户名不能为空", trigger: "blur"},
         ],
         password: [
-          { required: true, message: "密码不能为空", trigger: "blur" },
+          {required: true, message: "密码不能为空", trigger: "blur"},
         ],
       },
     };
@@ -65,7 +66,7 @@ export default {
     handleLogin() {
       this.$refs["loginRef"].validate((valid) => {
         if (!valid) {
-          return;
+          return false
         } else {
           let params = {
             username: this.loginForm.username,
@@ -77,8 +78,6 @@ export default {
               this.$router.push("/dashboard");
             } else {
               this.$message.error(res.message);
-              return;
-              // this.$message.error(res.message && res.data);
             }
           });
         }

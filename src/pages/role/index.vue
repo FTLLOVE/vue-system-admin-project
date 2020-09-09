@@ -5,7 +5,7 @@
         <el-input v-model="searchForm.name" clearable></el-input>
       </el-form-item>
       <el-form-item label="状态">
-        <el-select v-model="searchForm.status" placeholder clearable>
+        <el-select v-model="searchForm.status" clearable>
           <el-option label="正常" value="1"></el-option>
           <el-option label="失效" value="0"></el-option>
         </el-select>
@@ -43,14 +43,14 @@
             size="mini"
             plain
             type="danger"
-            v-show="scope.row.status === 1 ? true : false"
+            v-show="scope.row.status === 1"
             @click="handleRoleStatus(scope.$index, scope.row)"
           >删除</el-button>
           <el-button
             size="mini"
             plain
             type="warning"
-            v-show="scope.row.status === 0 ? true : false"
+            v-show="scope.row.status === 0"
             @click="handleRoleStatus(scope.$index, scope.row)"
           >恢复</el-button>
         </template>
@@ -189,8 +189,8 @@ export default {
       this.isVisible = true;
     },
     // 获取菜单列表
-    getMenuList() {
-      fetchMenuList().then((res) => {
+    async getMenuList() {
+      await fetchMenuList().then((res) => {
         if (res.code === 200 && res.data && res.data.length !== 0) {
           this.menuList = res.data;
         }
@@ -201,8 +201,8 @@ export default {
       this.title = "编辑角色";
       this.scene = "edit";
       this.isVisible = true;
-      this.getRoleDetail(row.id);
-      this.getMenuList();
+      await this.getRoleDetail(row.id);
+      await this.getMenuList();
       this.form.id = row.id;
     },
     // 获取角色详情

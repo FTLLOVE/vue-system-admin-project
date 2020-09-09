@@ -102,9 +102,7 @@ import {
   fetchAddPost,
   fetchUpdatePost,
   fetchUpdatePostStatus
-}
-  from '@/api/post'
-import {fetchAddDepartment, fetchUpdateDepartment} from "@/api/department";
+} from '@/api/post'
 
 export default {
   name: "index",
