@@ -40,6 +40,11 @@ export default new Router({
 					meta: {title: "岗位管理"}
 				},
 				{
+					path: "menu",
+					component: () => import('../pages/menu'),
+					meta: {title: "菜单管理"}
+				},
+				{
 					path: "loginLog",
 					component: () => import("../pages/log"),
 					meta: {title: '登录日志'}

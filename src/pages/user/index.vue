@@ -293,14 +293,12 @@ export default {
           this.form.sex = res.data.sex.toString();
           // 修改角色数组
           let newRoles = [];
-
           this.form.roles &&
           this.form.roles.forEach((el) => {
             newRoles.push(el.id);
           });
 
           this.form.roles = newRoles;
-          console.log(this.form);
         }
       });
     },
@@ -367,20 +365,20 @@ export default {
     },
     // 新增
     async handleShowDialog() {
-      this.title = "新增用户";
-      this.scene = "add";
-      this.isVisible = true;
-      await this.getRoleList();
-      await this.getPostList();
+      this.title = "新增用户"
+      this.scene = "add"
+      this.isVisible = true
+      await this.getRoleList()
+      await this.getPostList()
     },
     // 编辑
     async handleUserEdit(index, row) {
-      this.title = "编辑用户";
-      this.scene = "edit";
-      this.isVisible = true;
-      await this.getRoleList();
-      await this.getPostList();
-      await this.getUserDetail(row.id);
+      this.title = "编辑用户"
+      this.scene = "edit"
+      this.isVisible = true
+      await this.getRoleList()
+      await this.getPostList()
+      await this.getUserDetail(row.id)
     },
     // 更新用户状态
     handleUserStatus(index, row) {

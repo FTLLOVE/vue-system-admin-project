@@ -92,6 +92,10 @@ export default {
               title: "岗位管理"
             },
             {
+              index: "menu",
+              title: "菜单管理"
+            },
+            {
               index: "loginLog",
               title: "登录日志",
             },
